@@ -7,6 +7,11 @@ declare namespace App {
 		userid: string;
 	}
 
+	export interface ISelectField {
+		label: string
+		value: number
+	}
+
 	// interface Platform {}
 
 	// interface Session {}
