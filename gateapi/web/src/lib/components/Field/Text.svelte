@@ -3,7 +3,6 @@
     export let id: string
     export let label: string
     export let placeholder: string = ""
-
     let value: string = ""
 
     function handleChange(ev: Event) {

@@ -13,7 +13,7 @@
 <button 
     type={type}
     disabled={disabled}
-    class={`${ofcStyle} py-3 rounded-full w-full text-center uppercase`}
+    class={`${ofcStyle} py-3 px-4 rounded-full w-full text-center uppercase`}
 >
     {title}
 </button>

@@ -1,7 +1,3 @@
-<script lang="ts">
-	export let svgClass: string = "";
-</script>
-
 
 <svg
 	width="350"
@@ -10,7 +6,6 @@
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-	class={svgClass}
 >
 	<rect width="350" height="223" fill="url(#pattern0)" />
 	<defs>

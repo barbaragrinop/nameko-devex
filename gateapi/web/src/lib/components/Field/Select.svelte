@@ -19,12 +19,10 @@
 		<select
 			name={name}
 			id={id}
-			class="min-h-[41px] relative text-deep-purple leading-tight focus:outline-none
-       focus:bg-white focus:border-gray-500 appearance-none bg-white py-2 pl-[50px] 
-        pr-12 rounded border border-lavander-grey w-full">
+			class="min-h-[41px] relative text-deep-purple leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none bg-white py-2 pl-[50px] pr-12 rounded border border-lavander-grey w-full">
 			<option selected class="h-8">{placeholder}</option>
-			{#each Object.entries(options) as [label, value]}
-				<option  class="h-8 hover:bg-red-500 transition-colors" value={value}>{label}</option>
+			{#each options as option}
+				<option  class="h-8 hover:bg-red-500 transition-colors" value={option.value}>{option.label}</option>
 			{/each}
 		</select>
 		<div

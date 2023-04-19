@@ -1,8 +1,14 @@
 <script context="module" lang="ts">
+	export let form;
+
 	import { ROUTES } from './routes'
+	import { writable } from 'svelte/store'
+	
+	import { applyAction, enhance } from '$app/forms'
 
 	import Bath from '$lib/icons/bath.svelte'
-	import Property from '$lib/icons/property.svelte'
+	import Property1 from '$lib/icons/property.svelte'
+	import Property2 from '$lib/icons/property.png'
 	import Dollar from '$lib/icons/dolar.svelte'
 	import Bed from '$lib/icons/bed.svelte'
 	import SingleFamily from '$lib/icons/single-family.svelte'
@@ -19,6 +25,12 @@
 
 	import type { SelectField } from '../../types/Select'
 	import type { Properties } from '../../types/Properties'
+  import Property from '$lib/icons/property.svelte'
+
+	export const activeProperty = writable<string | null>('')
+
+	// export const activeProperty = writable<string | null>('')
+	
 
 	const optionsSelect: SelectField[] = [
 		{ label: '1', value: 1 },
@@ -35,10 +47,8 @@
 		{ description: 'Condo', IconTypeProperties: Condo },
 	]
 
-	let activeProperty: Properties = { description: 'Single-Family', IconTypeProperties: SingleFamily }
-
 	function handleClickGetActiveProperty(property: Properties) {
-		activeProperty = property
+		activeProperty.set(property.description)
 	}
 
 	function handleKeyDownGetActiveProperty(event, property) {
@@ -46,8 +56,6 @@
 			handleClickGetActiveProperty(property)
 		}
 	}
-
-	function onSubmit(ev: any) {}
 </script>
 
 <svelte:head>
@@ -58,45 +66,64 @@
 	<div
 		class=" min-w-screen bg-snow-white flex justify-center items-center pt-12"
 	>
-		<div class="w-[70%] h-[90%] mb-12">
-			<form
-				class="grid grid-cols-12 gap-3 mb-8"
-				on:submit|preventDefault={onSubmit}
+		<div class="w-[80%] h-[90%] mb-12">
+			<form class="grid grid-cols-12 gap-3 mb-8" 
+				method="POST"
+				use:enhance={() => {
+					return async ({result, form}) => {
+						console.log(result)
+						await applyAction(result)
+						form.reset()
+					}
+				}}
 			>
-				<div class="col-span-6 flex flex-col justify-between">
+				<div class="col-span-12 md:col-span-6 flex flex-col justify-between">
 					<h1 class="text-[32px]">Property details</h1>
-					<p>
+					<p class="my-3">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
 						ad minim veniam.
 					</p>
+
+					<div class="flex w-full my-10 justify-center md:hidden">
+						<img alt="" src={Property2} />
+					</div>
+
+
 					<InputText
 						name="propertyname"
 						id="propertyname"
 						label="Property Name"
-					/>
-				</div>
-				<div class="col-span-6">
-					<Property />
+					/>				
 				</div>
 
-				<div class="col-span-6">
+
+				<div class="md:flex md:col-span-6 w-full justify-center hidden relative">
+					<Property1 />
+				</div>
+
+				<div class="col-span-12 lg:col-span-6">
 					<InputText name="address" id="address" label="Address" />
 				</div>
-				<div class="col-span-6" />
+
+	
+				
+				<div class="col-span-6">
+					<input type="text" bind:value={$activeProperty} name="propertytype" class="hidden" />
+				</div>
 				<div class="col-span-12 my-3">
 					<Label>Property Type</Label>
 				</div>
 				{#each propertiesType as property}
 					<div
-						class="col-span-3"
+						class="col-span-12 sm:col-span-6 lg:col-span-3"
 						on:click={() => handleClickGetActiveProperty(property)}
 						on:keydown={(ev) => handleKeyDownGetActiveProperty(ev, property)}
 					>
 						<Card
 							description={property.description}
 							Icon={property.IconTypeProperties}
-							isActive={activeProperty.description === property.description}
+							isActive={$activeProperty === property.description}
 						/>
 					</div>
 				{/each}
@@ -107,7 +134,7 @@
 						class="bg-white w-full p-7 rounded drop-shadow-sm flex flex-col gap-7"
 					>
 						<div class="grid grid-cols-12 gap-3">
-							<div class="col-span-3">
+							<div class="col-span-12 sm:col-span-6 lg:col-span-3">
 								<InputText
 									name="unitname"
 									id="unitname"
@@ -115,7 +142,7 @@
 									placeholder="Name and/or number"
 								/>
 							</div>
-							<div class="col-span-3">
+							<div class="col-span-12 sm:col-span-6 lg:col-span-3 mb-11">
 								<NumberInput
 									name="rent"
 									id="rent"
@@ -125,7 +152,7 @@
 									legend="/mo"
 								/>
 							</div>
-							<div class="col-span-3">
+							<div class="col-span-12 sm:col-span-6 lg:col-span-3 mb-11">
 								<NumberInput
 									name="deposit"
 									id="deposit"
@@ -135,7 +162,7 @@
 									legend="/mo"
 								/>
 							</div>
-							<div class="col-span-3">
+							<div class="col-span-12 sm:col-span-6 lg:col-span-3">
 								<NumberInput
 									name="leaselength"
 									id="leaselength"
@@ -143,7 +170,7 @@
 								/>
 							</div>
 						</div>
-						<div class="grid grid-cols-5 gap-3">
+						<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
 							<div class="grid-cols-1 divide-x">
 								<SelectInput
 									name="numberofbeds"
@@ -167,8 +194,8 @@
 							<div class="grid-cols-1 divide-x">
 								<NumberInput name="sqft" id="sqft" label="Sq. Ft." />
 							</div>
-							<div class="grid-cols-1 divide-x">
-								<DateInput name="sqft" id="sqft" label="Sq. Ft." />
+							<div class="grid-cols-1 divide-x mb-11">
+								<DateInput name="movingdate" id="movingdate" label="Date" />
 							</div>
 							<div class="grid-cols-1 divide-x">
 								<SelectInput
@@ -184,12 +211,12 @@
 					</div>
 				</div>
 
-				<div class="col-span-2 mt-9">
+				<div class="col-span-12 sm:col-span-5 sm:mt-0 lg:col-span-3 sm:my-4 ">
 					<Button color="white" title="Back" />
 				</div>
-				<div class="col-span-8 mt-9" />
-				<div class="col-span-2 mt-9">
-					<Button color="purple" title="Continue" />
+				<div class="sm:col-span-2 sm:flex hidden lg:col-span-6"  />
+				<div class="col-span-12 sm:col-span-5 sm:mt-0 sm:my-4 lg:col-span-3">
+					<Button color="purple" type="submit" title="Continue" />
 				</div>
 			</form>
 		</div>
