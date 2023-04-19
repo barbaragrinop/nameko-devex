@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte'
-	import type { Properties } from 'types/Properties'
+	import type { Properties } from 'src/types/Properties'
 
 	export let isActive: boolean
 	export let Icon: typeof SvelteComponent = null

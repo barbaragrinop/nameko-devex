@@ -3,6 +3,7 @@
     export let id: string
     export let label: string
     export let placeholder: string = ""
+    export let outsideValue: string = ""
     let value: string = ""
 
     function handleChange(ev: Event) {
@@ -20,7 +21,7 @@
             id={id} 
             name={name} 
             on:input={handleChange}
-            value={value}
+            value={outsideValue || value}
             class="fieldBase"
         />
     </label>

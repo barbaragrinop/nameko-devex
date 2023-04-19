@@ -6,7 +6,7 @@
 	export let label: string
 	export let placeholder: string = ''
 	export let options: { label: string; value: number }[] = []
-  export let Icon: any = null
+  	export let Icon: any = null
 
 </script>
 
@@ -20,7 +20,7 @@
 			name={name}
 			id={id}
 			class="min-h-[41px] relative text-deep-purple leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none bg-white py-2 pl-[50px] pr-12 rounded border border-lavander-grey w-full">
-			<option selected class="h-8">{placeholder}</option>
+			<option selected class="h-8" value="0">{placeholder}</option>
 			{#each options as option}
 				<option  class="h-8 hover:bg-red-500 transition-colors" value={option.value}>{option.label}</option>
 			{/each}

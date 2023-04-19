@@ -13,6 +13,16 @@ module.exports = {
         'light-grey': '#E5E5E4', 
         'lavender': '#F3F1FE', 
         'snow-white': '#FCFCFD', 
+      }, 
+      animation: {
+        "fade-in": "fadein 2s ease-in"
+      }, 
+      keyframes: {
+        fadein: {
+          "0%": {opacity: "0"},
+          "50%": {opacity: "0.5"},
+          "100%": {opacity: "1"},
+        }
       }
     },
   },

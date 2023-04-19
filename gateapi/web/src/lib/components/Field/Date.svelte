@@ -4,14 +4,13 @@
     export let name: string
     export let id: string
     export let label: string
-
-    let value: string
+    let value: string = new Date().toISOString().substr(0, 10)
 
     function handleChange(ev: Event) {
         const target = ev.target as HTMLInputElement
         value = target.value
-    }            
-    // on:input={handleChange}
+    }
+    
 </script>
 
 <div>
